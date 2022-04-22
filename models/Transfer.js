@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const TransferSchema = new Schema({
     message: String,
-    from_user: String,
+    user: String,
     amount: String,
     completed: Boolean
 })

@@ -21,10 +21,10 @@ const getAll = (req, res) => {
 
 const create = (req, res) => {
     let transfer = new Transfer();
-    transfer.message = "hey geef je mij mijn geld terug ajb dankjewel";
-    transfer.from_user = "uid_9918";
-    transfer.amount = "8";
-    transfer.completed = false;
+    transfer.message = req.body.message;
+    transfer.user = req.body.user;
+    transfer.amount = req.body.amount;
+    transfer.completed = req.body.completed;
     transfer.save((err, doc) => {
         if (err) {
             res.json({
