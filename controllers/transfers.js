@@ -1,15 +1,13 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-const TransferSchema = new Schema({
-    message: String,
-    from_user: String,
-    amount: String,
-    completed: Boolean
-})
-const Transfer = mongoose.model('Transfer', TransferSchema);
+const Transfer = require('../models/Transfer');
 
 const getAll = (req, res) => {
     Transfer.find({}, (err, docs) => {
+        if (err) {
+            res.json({
+                "status": "failed",
+                "message": "couldn't get any documents"
+            })
+        }
         if (!err) {
             res.json({
                 "status": "success",
@@ -19,8 +17,6 @@ const getAll = (req, res) => {
             })
         }
     })
-
-
 }
 
 const create = (req, res) => {
@@ -30,6 +26,12 @@ const create = (req, res) => {
     transfer.amount = "8";
     transfer.completed = false;
     transfer.save((err, doc) => {
+        if (err) {
+            res.json({
+                "status": "failed",
+                "message": "couldn't save documents"
+            })
+        }
         if (!err) {
             res.json({
                 "status": "success",
@@ -40,10 +42,7 @@ const create = (req, res) => {
                 }
             })
         };
-
     })
-
-
 }
 
 module.exports.getAll = getAll;
