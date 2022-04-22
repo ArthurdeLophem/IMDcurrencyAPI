@@ -1,24 +1,8 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const transfersController = require("../controllers/transfers");
 
-router.get("/", (req, res) => {
-    res.json({
-        "status": "success",
-        "data": {
-            "transfers": []
-        }
-    })
-})
-
-router.post("/", (req, res) => {
-    res.json({
-        "status": "success",
-        "data": {
-            "transfers": {
-                "text": "transaction 215"
-            }
-        }
-    })
-})
+router.get("/", transfersController.getAll);
+router.post("/", transfersController.create);
 
 module.exports = router;
