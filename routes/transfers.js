@@ -10,4 +10,15 @@ router.get("/", (req, res) => {
     })
 })
 
+router.post("/", (req, res) => {
+    res.json({
+        "status": "success",
+        "data": {
+            "transfers": {
+                "text": "transaction 215"
+            }
+        }
+    })
+})
+
 module.exports = router;
