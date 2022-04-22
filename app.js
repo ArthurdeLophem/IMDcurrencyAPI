@@ -8,6 +8,11 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const apiTransferRouter = require('./routes/transfers.js');
 
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/imdCurrencyApp', {
+  useNewUrlParser: true
+});
+
 const app = express();
 
 // view engine setup
