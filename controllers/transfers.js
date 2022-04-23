@@ -19,6 +19,16 @@ const getAll = (req, res) => {
     })
 }
 
+const getById = async (req, res) => {
+    try {
+        const data = await Transfer.findById(req.params.id);
+        res.json(data);
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
 const create = (req, res) => {
     let transfer = new Transfer();
     transfer.message = req.body.message;
@@ -46,4 +56,5 @@ const create = (req, res) => {
 }
 
 module.exports.getAll = getAll;
+module.exports.getById = getById;
 module.exports.create = create;
