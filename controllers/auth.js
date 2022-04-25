@@ -3,7 +3,8 @@ const User = require('../models/User');
 const signup = async (req, res, next) => {
     let username = req.body.username;
     let password = req.body.password;
-    const user = new User({ username: username });
+    let email = req.body.email;
+    const user = new User({ username: username, email: email });;
     await user.setPassword(password);
     await user.save().then(result => {
         res.json({
