@@ -8,8 +8,8 @@ router.get('/', function (req, res, next) {
   res.send('respond with a resource');
 });
 
-router.post('/signup', authenticationController.signup);
-router.post('/login', authenticationController.login);
-router.get('/leaderboard', leaderboardController.getLeaderboard);
+router.post('/api/v1/signup', authenticationController.signup);
+router.post('/api/v1/login', authenticationController.login);
+router.get('/api/v1/leaderboard', leaderboardController.getLeaderboard);
 
 module.exports = router;
