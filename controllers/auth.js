@@ -1,14 +1,13 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 
-const signup = (req, res) => {
+const signup = async (req, res) => {
     let user = new User();
-
     user.username = req.body.username;
-    let getPassword = req.body.password;
-    user.password = bcrypt.hash(getPassword, 12);
+    user.password = await bcrypt.hash(req.body.password, 12);
     user.email = req.body.email;
     user.coins = 0;
+    console.log(user);
 
     user.save((err, doc) => {
         if (err) {
