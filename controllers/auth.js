@@ -1,19 +1,27 @@
 const User = require('../models/User');
+const bcrypt = require('bcrypt');
 
-const signup = async (req, res, next) => {
-    let username = req.body.username;
-    let password = req.body.password;
-    let email = req.body.email;
-    const user = new User({ username: username, email: email, coins: 0 });;
-    await user.setPassword(password);
-    await user.save().then(result => {
-        res.json({
-            "status": "success"
-        })
-    }).catch(err => {
-        res.json({
-            "status": "failed"
-        })
+const signup = (req, res) => {
+    let user = new User();
+
+    user.username = req.body.username;
+    let getPassword = req.body.password;
+    user.password = bcrypt.hash(getPassword, 12);
+    user.email = req.body.email;
+    user.coins = 0;
+
+    user.save((err, doc) => {
+        if (err) {
+            res.json({
+                "status": "success"
+            })
+        }
+        if (!err) {
+            console.log(err);
+            res.json({
+                "status": "failed"
+            })
+        };
     })
 }
 
@@ -24,7 +32,6 @@ const login = async (req, res, next) => {
             "data": {
                 "user": result
             }
-
         })
     }).catch(err => {
         res.json({
