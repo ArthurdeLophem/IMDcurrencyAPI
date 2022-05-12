@@ -1,43 +1,53 @@
 const User = require('../models/User');
-const bcrypt = require('bcrypt');
 
-const signup = async (req, res) => {
-    let user = new User();
-    user.username = req.body.username;
-    user.password = await bcrypt.hash(req.body.password, 12);
-    user.email = req.body.email;
-    user.coins = 0;
-    console.log(user);
+const signup = async (req, res, next) => {
+    console.log(req.body);
 
-    user.save((err, doc) => {
-        if (err) {
-            res.json({
-                "status": "success"
-            })
-        }
-        if (!err) {
-            console.log(err);
-            res.json({
-                "status": "failed"
-            })
-        };
-    })
+    const emailExists = await User.findOne({ email: req.body.email })
+    const userExists = await User.findOne({ username: req.body.username })
+    if (emailExists) {
+        res.json({ success: false, statusCode: 500, errorMessage: "email already exists" });
+    } else if (userExists) {
+        res.json({ success: false, statusCode: 500, errorMessage: "username already exists" });
+    } else {
+        let user = new User({
+            username: req.body.username,
+            email: req.body.email,
+            password: await User.encryptPassword(req.body.password),
+            coins: 0
+        });
+
+        const savedUser = await user.save(user);
+        console.log(savedUser);
+
+
+
+        user.save(err => {
+            if (err) {
+                res.json({ success: false, statusCode: 500, errorMessage: err });
+            }
+            res.json({ success: true, statusCode: 200, message: savedUser });
+        })
+    }
 }
 
 const login = async (req, res, next) => {
-    const user = await User.authenticate()(req.body.username, req.body.password).then(result => {
-        res.json({
-            "status": "success",
-            "data": {
-                "user": result
-            }
-        })
-    }).catch(err => {
-        res.json({
-            "status": "failed",
-            "message": err
-        })
-    });
+    console.log(req.body);
+    const userExists = await User.findOne({ email: req.body.email })
+
+    if (!userExists) {
+        res.json({ error: "user doesn't exist" })
+    }
+    else if (userExists) {
+        const matchPw = await User.decryptPassword(req.body.password, userExists.password)
+        console.log(matchPw)
+        if (!matchPw) {
+            res.json({ error: "password mismatch" })
+        }
+        else {
+            res.json({ status: "logged in" })
+        }
+    }
 }
 
 module.exports.signup = signup;
