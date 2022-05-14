@@ -1,4 +1,4 @@
-const Transfer = require('../models/Transfer');
+const Transfer = require('../../../models/api/v1/Transfer');
 
 const getAll = (req, res) => {
     Transfer.find({}, (err, docs) => {
