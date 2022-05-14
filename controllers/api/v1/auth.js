@@ -20,8 +20,6 @@ const signup = async (req, res, next) => {
         const savedUser = await user.save(user);
         console.log(savedUser);
 
-
-
         user.save(err => {
             if (err) {
                 res.json({ success: false, statusCode: 500, errorMessage: err });
@@ -33,7 +31,16 @@ const signup = async (req, res, next) => {
 
 const login = async (req, res, next) => {
     console.log(req.body);
-    const userExists = await User.findOne({ email: req.body.email })
+    const userExists = await User.findOne({
+        $or: [
+            {
+                email: req.body.email
+            },
+            {
+                username: req.body.email
+            }
+        ]
+    })
 
     if (!userExists) {
         res.json({ error: "user doesn't exist" })
