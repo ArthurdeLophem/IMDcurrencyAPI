@@ -52,7 +52,13 @@ const login = async (req, res, next) => {
             res.json({ error: "password mismatch" })
         }
         else {
-            res.json({ status: "logged in" })
+            res.json({
+                status: 204,
+                body: {
+                    status: "success",
+                    message: "succesfully loged in redirection imminent"
+                },
+            })
         }
     }
 }
