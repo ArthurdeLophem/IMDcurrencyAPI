@@ -1,13 +1,14 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt');
-//const passportLocalMongoose = require('passport-local-mongoose');
+const JWT = require('jsonwebtoken');
 
 const UserSchema = new Schema({
     username: String,
     email: String,
     password: String,
-    coins: Number
+    coins: Number,
+    token: String
 });
 
 UserSchema.statics.encryptPassword = async (password) => {

@@ -1,4 +1,5 @@
 const User = require('../../../models/api/v1/User');
+const JWT = require('jsonwebtoken');
 
 const signup = async (req, res, next) => {
     console.log(req.body);
@@ -17,15 +18,24 @@ const signup = async (req, res, next) => {
             coins: 0
         });
 
-        const savedUser = await user.save(user);
-        console.log(savedUser);
+        let token = JWT.sign({
+            uid: user._id,
+            username: req.username
+        }, "verySecret",
+            process.env.TOKEN_KEY,
+            {
+                expiresIn: "2h",
+            });
 
-        user.save(err => {
-            if (err) {
-                res.json({ success: false, statusCode: 500, errorMessage: err });
-            }
-            res.json({ success: true, statusCode: 200, message: savedUser });
-        })
+        user.token = token;
+
+        await user.save().then(result => {
+            res.json({
+                success: true,
+                statusCode: 200,
+                message: user
+            });
+        }).catch(err => { console.log(err) })
     }
 }
 
@@ -52,6 +62,19 @@ const login = async (req, res, next) => {
             res.json({ error: "password mismatch" })
         }
         else {
+
+            let token = JWT.sign({
+                uid: userExists._id,
+                username: userExists.username
+            }, "newVerySecret",
+                process.env.TOKEN_KEY,
+                {
+                    expiresIn: "2h",
+                });
+
+            userExists.token = token;
+            userExists.save();
+
             res.json({
                 status: 204,
                 body: {
