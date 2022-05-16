@@ -4,12 +4,13 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
+const config = require('config');
 const indexRouter = require('./routes/api/v1/index');
 const usersRouter = require('./routes/api/v1/users');
 const apiTransferRouter = require('./routes/api/v1/transfers.js');
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/imdCurrencyApp', {
+mongoose.connect(process.env.dbconn || config.get('Database.conn'), {
   useNewUrlParser: true
 });
 
