@@ -8,6 +8,7 @@ const config = require('config');
 const indexRouter = require('./routes/api/v1/index');
 const usersRouter = require('./routes/api/v1/users');
 const apiTransferRouter = require('./routes/api/v1/transfers.js');
+const auth = require("./middleware/auth");
 
 const mongoose = require('mongoose');
 mongoose.connect(process.env.dbconn || config.get('Database.conn'), {
@@ -30,6 +31,10 @@ app.use(cors());
 app.use('/', indexRouter);
 app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/transfers', apiTransferRouter);
+
+app.get("/welcome", auth, (req, res) => {
+  res.status(200).send("Welcome 🙌 ");
+});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
