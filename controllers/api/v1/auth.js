@@ -21,7 +21,7 @@ const signup = async (req, res, next) => {
         let token = JWT.sign({
             uid: user._id,
             username: req.username
-        }, "verySecret",
+        }, "secret",
             process.env.TOKEN_KEY,
             {
                 expiresIn: "2h",
@@ -66,7 +66,7 @@ const login = async (req, res, next) => {
             let token = JWT.sign({
                 uid: userExists._id,
                 username: userExists.username
-            }, "newVerySecret",
+            }, "secret",
                 process.env.TOKEN_KEY,
                 {
                     expiresIn: "2h",
