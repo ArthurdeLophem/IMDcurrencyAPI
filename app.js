@@ -11,6 +11,7 @@ const apiTransferRouter = require('./routes/api/v1/transfers.js');
 const auth = require("./middleware/auth");
 
 const mongoose = require('mongoose');
+// load dbconn from process.env
 mongoose.connect(process.env.dbconn || config.get('Database.conn'), {
   useNewUrlParser: true
 });
