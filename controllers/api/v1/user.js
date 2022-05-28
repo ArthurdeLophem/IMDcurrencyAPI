@@ -13,15 +13,22 @@ getUser = async (req, res) => {
             }
         ]
     })
-    console.log(results[0])
-
-    res.json({
-        "status": "success",
-        "data": {
-            "userId": results[0]._id,
-            "email": results[0].email,
-            "username": results[0].username
-        }
-    })
+    console.log(results)
+    if (results === undefined || results.length === 0) {
+        res.json({
+            "status": "failed",
+            "data": "no users found on this name or email"
+        })
+    }
+    else {
+        res.json({
+            "status": "success",
+            "data": {
+                "userId": results[0]._id,
+                "email": results[0].email,
+                "username": results[0].username
+            }
+        })
+    }
 }
 module.exports.getUser = getUser;
