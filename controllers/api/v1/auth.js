@@ -76,12 +76,10 @@ const login = async (req, res, next) => {
             userExists.save();
 
             res.json({
-                status: 204,
-                body: {
-                    status: "success",
-                    message: "succesfully loged in redirection imminent"
-                },
-            })
+                success: true,
+                statusCode: 200,
+                message: userExists
+            });
         }
     }
 }
