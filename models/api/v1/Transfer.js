@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 const TransferSchema = new Schema({
     message: String,
     user: String,
+    to_user: String,
     amount: String,
     completed: Boolean
 })

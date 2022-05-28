@@ -1,7 +1,17 @@
 const Transfer = require('../../../models/api/v1/Transfer');
 
-const getAll = (req, res) => {
-    Transfer.find({}, (err, docs) => {
+const getAllByUserId = (req, res) => {
+    Transfer.find({
+        $or: [
+            {
+                "user": req.user._id
+            },
+            {
+                "to_user": req.user._id
+            }
+        ]
+
+    }, (err, docs) => {
         if (err) {
             res.json({
                 "status": "failed",
@@ -32,7 +42,8 @@ const getById = async (req, res) => {
 const create = (req, res) => {
     let transfer = new Transfer();
     transfer.message = req.body.message;
-    transfer.user = req.body.user;
+    transfer.user = req.user._id;
+    transfer.to_user = req.body.to_user;
     transfer.amount = req.body.amount;
     transfer.completed = req.body.completed;
     transfer.save((err, doc) => {
@@ -55,6 +66,6 @@ const create = (req, res) => {
     })
 }
 
-module.exports.getAll = getAll;
+module.exports.getAll = getAllByUserId;
 module.exports.getById = getById;
 module.exports.create = create;
