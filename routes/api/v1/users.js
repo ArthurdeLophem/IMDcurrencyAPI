@@ -10,7 +10,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/signup', authenticationController.signup);
-router.post('/login', auth, authenticationController.login);
+router.post('/login', authenticationController.login);
 router.get('/leaderboard', auth, leaderboardController.getLeaderboard);
 
 module.exports = router;
