@@ -1,13 +1,14 @@
 const Transfer = require('../../../models/api/v1/Transfer');
 
 const getAllByUserId = (req, res) => {
+    let _uid = req.params
     Transfer.find({
         $or: [
             {
-                "user": req.user._id
+                "user": _uid
             },
             {
-                "to_user": req.user._id
+                "to_user": _uid
             }
         ].sort({ date: -1 })
 
