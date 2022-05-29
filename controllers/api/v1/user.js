@@ -10,10 +10,10 @@ getUser = async (req, res) => {
             },
             {
                 username: user
-            },
-            {
-                _id: user
             }
+            /*{
+                _id: user
+            }*/
         ]
     })
     console.log(results)
