@@ -12,7 +12,7 @@ getUser = async (req, res) => {
                 username: user
             },
             {
-                _id: ObjectId(user)
+                _id: ObjectId(toString(user))
             }
         ]
     })
