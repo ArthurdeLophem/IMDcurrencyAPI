@@ -15,7 +15,7 @@ const signup = async (req, res, next) => {
             username: req.body.username,
             email: req.body.email,
             password: await User.encryptPassword(req.body.password),
-            coins: 0
+            coins: 100
         });
 
         let token = JWT.sign({
