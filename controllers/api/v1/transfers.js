@@ -1,33 +1,23 @@
 const Transfer = require('../../../models/api/v1/Transfer');
 
-const getAllByUserId = (req, res) => {
-    let _uid = req.params
-    Transfer.find({
-        $or: [
-            {
-                "user": _uid
-            },
-            {
-                "to_user": _uid
-            }
-        ].sort({ date: -1 })
-
-    }, (err, docs) => {
-        if (err) {
-            res.json({
-                "status": "failed",
-                "message": "couldn't get any documents"
-            })
-        }
-        if (!err) {
-            res.json({
-                "status": "success",
-                "data": {
-                    "transfers": docs
+const getAllByUserId = async (req, res) => {
+    try {
+        const { user } = req.params;
+        const data = await Transfer.find({
+            $or: [
+                {
+                    user: user
+                },
+                {
+                    to_user: user
                 }
-            })
-        }
-    })
+            ]
+        }).sort({ date: -1 });
+        res.json(data)
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message })
+    }
 }
 
 const getById = async (req, res) => {
@@ -68,6 +58,6 @@ const create = (req, res) => {
     })
 }
 
-module.exports.getAll = getAllByUserId;
+module.exports.getAllByUserId = getAllByUserId;
 module.exports.getById = getById;
 module.exports.create = create;
