@@ -42,7 +42,7 @@ const getById = async (req, res) => {
 const create = (req, res) => {
     let transfer = new Transfer();
     transfer.message = req.body.message;
-    transfer.user = req.user._id;
+    transfer.user = req.body._id;
     transfer.to_user = req.body.to_user;
     transfer.amount = req.body.amount;
     transfer.completed = req.body.completed;
