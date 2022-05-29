@@ -5,6 +5,7 @@ const TransferSchema = new Schema({
     user: String,
     to_user: String,
     amount: Number,
+    date: Date,
     completed: Boolean
 })
 const Transfer = mongoose.model('Transfer', TransferSchema);

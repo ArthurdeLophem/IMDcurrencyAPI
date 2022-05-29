@@ -9,7 +9,7 @@ const getAllByUserId = (req, res) => {
             {
                 "to_user": req.user._id
             }
-        ]
+        ].sort({ date: -1 })
 
     }, (err, docs) => {
         if (err) {
@@ -46,6 +46,7 @@ const create = (req, res) => {
     transfer.to_user = req.body.to_user;
     transfer.amount = req.body.amount;
     transfer.completed = req.body.completed;
+    transfer.date = Date.now();
     transfer.save((err, doc) => {
         if (err) {
             res.json({
