@@ -12,7 +12,7 @@ router.get('/', function (req, res, next) {
 
 router.post('/signup', authenticationController.signup);
 router.post('/login', authenticationController.login);
-router.post('/leaderboard', auth, leaderboardController.getLeaderboard);
+router.get('/leaderboard', auth, leaderboardController.getLeaderboard);
 router.get('/:user', auth, userController.getUser);
 
 module.exports = router;
